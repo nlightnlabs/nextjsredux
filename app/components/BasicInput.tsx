@@ -1,8 +1,10 @@
-import React from 'react'
+"use client"
+
+import React, {useState} from 'react'
 
 const BasicInput = ({ name, label, initialValue, onChange }) => {
 
-    const [value, setValue] = useState(initialValue)
+    const [value, setValue] = useState<any>(initialValue)
     
     const handleChange = (e) => {
         setValue(e.target.value)
