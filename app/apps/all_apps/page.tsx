@@ -14,7 +14,7 @@ import FloatingPanel from '../../components/FloatingPanel'
 const AllApps = () => {
 
   const dispatch = useAppDispatch()
-  const appName = useAppSelector((state)=>state.environment.appName)
+  const appName = useAppSelector((state)=>state.apps.selectedAppName)
   const companyName = useAppSelector((state)=>state.authentication.user.company_name) || "general_user"
   const folderPath = `${appName}/client_documents/${companyName}`
 
