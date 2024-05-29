@@ -108,7 +108,7 @@ const FloatingPanel = (props:FloatingPanelPropTypes) => {
         <div className="d-flex justify-content-between align-items-center" style={HeaderStyle}>
           
           <div className="d-flex ms-1 align-items-center" style={TitleStyle}>
-            {title && toProperCase(title.replaceAll("_"," "))}
+            {title && toProperCase(title.replace(/"_"/g," "))}
           </div>
 
           <div 
@@ -116,7 +116,11 @@ const FloatingPanel = (props:FloatingPanelPropTypes) => {
             className="d-flex align-items-center me-2" 
             style={{height: "30px", width:"30px"}}
             onClick={(e)=>handleClosePanel(e)}>
-            <Svg iconName={"CloseIcon"}/>
+            <Svg 
+              iconName={"CloseIcon"}
+              fillColor={"lightgray"}
+              fillOpacity={"1"}
+              />
           </div>
 
         </div>

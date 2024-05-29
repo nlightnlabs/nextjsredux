@@ -1,12 +1,11 @@
-interface PropTypes{
-  fillColor?: string;
-  fillOpacity?:string;
-}
 
-const AppIcon = (props:PropTypes) => {
+import React from 'react';
 
- const fillColor = props.fillColor || "gray"
- const fillOpacity = props.fillOpacity || "1"
+  const AppIcon = (props) => {
+  
+  const iconName = props.iconName || ""
+  const fillColor = props.fillColor || "gray"
+  const fillOpacity = props.fillOpacity || "1"
 
   const style = {
     height: "100%",

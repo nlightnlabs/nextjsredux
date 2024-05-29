@@ -319,7 +319,7 @@ export const getColumnData = async(tableName:string)=>{
     const data = result.data
 
     let fieldList:string[] = [] 
-      data.map(item=>{
+      data.map((item:any)=>{
         fieldList.push(item.name)
       })
     return ({data: data, fieldList:fieldList})
@@ -374,7 +374,7 @@ formData.append('file', audioBlob, 'audio.wav');
 export const pythonUrl = process.env.NODE_ENV==="production" ? "https://nlightnlabs.net/python" : "http://127.0.0.1:5000"
 
 export const python = axios.create({
-  pythonUrl
+  baseURL: pythonUrl
 })
 
 export const pythonApp = async (appName:string) =>{
@@ -437,7 +437,7 @@ export const getFiles = async (folderPath:string)=>{
       const response = await serverConnection.post(`/aws/getFiles`, params);
       const data = await response.data;
       let files:Object[] = []
-      data.forEach(item => {
+      data.forEach((item:any) => {
         const key = item.file.Key
         const fileName = key.split('/').pop(); // Get the file name
         const fileType = fileName.split('.').pop(); // Get the file type

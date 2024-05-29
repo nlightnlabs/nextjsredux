@@ -1,12 +1,9 @@
-interface PropTypes{
-    fillColor?: string;
-    fillOpacity?:string;
-    hoveredColor?: string;
-    isHovered?: string;
-  }
+
+import React from 'react';
+
+const WorkflowIcon = (props) => {
   
-  const WorkflowIcon = (props:PropTypes) => {
-  
+    const iconName = props.iconName || ""
    const fillColor = props.fillColor || "gray"
    const fillOpacity = props.fillOpacity || "1"
 

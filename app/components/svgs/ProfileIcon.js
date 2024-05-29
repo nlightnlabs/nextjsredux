@@ -1,11 +1,6 @@
-import {FC} from 'react'
+import React from 'react';
 
-interface PropTypes{
-    fillColor?: string;
-    fillOpacity?:string;
-  }
-  
-  const ProfileIcon: FC = (props:PropTypes) => {
+const ProfileIcon = (props) => {
   
    const fillColor = props.fillColor || "rgb(235,235,235)"
    const fillOpacity = props.fillOpacity || "1"

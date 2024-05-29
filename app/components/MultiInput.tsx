@@ -88,6 +88,7 @@ const MultiInput = (props:MultiInputProps) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (list && list.length > 0 && value !== "" && value !== null) {
@@ -223,13 +224,13 @@ const MultiInput = (props:MultiInputProps) => {
     }
   };
 
-  const handleHover = (e: React.MouseEvent<HTMLElement>) => {
+  const handleHover = (e: any) => {
     if (e.type === "mouseleave") {
       setDropDownDisplay("none");
     }
   };
 
-  const handleDoubleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleDoubleClick = (e: any) => {
     if (list && list.length > 0) {
       setOptions(list);
       setDropDownDisplay("block");
@@ -237,7 +238,7 @@ const MultiInput = (props:MultiInputProps) => {
     }
   };
 
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = (e: any) => {
     if (list && list.length > 0) {
       setOptions(list.filter(item => item));
       setDropDownDisplay("block");
@@ -294,7 +295,7 @@ const MultiInput = (props:MultiInputProps) => {
         {type === "textarea" ? (
           <textarea
             className="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            ref={inputRef}
+            ref={textAreaRef}
             id={id}
             name={name}
             value={value}

@@ -18,7 +18,6 @@ export default async function RootLayout({children,}: Readonly<{children: React.
 
   return (
     <html lang="en">
-      
       <body className="main-layout">
           <Header/>
           <div className="flex justify-between">

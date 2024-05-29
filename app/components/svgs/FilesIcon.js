@@ -1,10 +1,8 @@
-interface PropTypes{
-    fillColor?: string;
-    fillOpacity?:string;
-  }
+import React from 'react';
+
+const FilesIcon = (props) => {
   
-  const FilesIcon = (props:PropTypes) => {
-  
+    const iconName = props.iconName || ""
    const fillColor = props.fillColor || "gray"
    const fillOpacity = props.fillOpacity || "1"
   
