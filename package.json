@@ -1,6 +1,7 @@
 {
   "name": "nextjsredux",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "scripts": {
     "dev": "PORT=3002 next dev",
