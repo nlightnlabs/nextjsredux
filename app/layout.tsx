@@ -20,8 +20,8 @@ export default async function RootLayout({children,}: Readonly<{children: React.
     <html lang="en">
       <body className="main-layout">
           <Header/>
-          <div className="flex justify-between">
-            <div className="w-full h-full">
+          <div className="flex w-full h-[100%] justify-between">
+            <div className="flex w-full h-[100%]">
               {children}
             </div>
             {<Menu menuItems={menuItems} sections={sections} colorTheme="nlightn labs"/>}

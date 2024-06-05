@@ -1,13 +1,17 @@
 
-import React, { useState } from 'react';
-import {useRouter} from 'next/navigation'
-import Link from "next/link"
+import PromptInput from './components/PromptInput';
+
+
+const handleSubmit =async (e:any)=>{
+  "use server"
+  console.log(FormData)
+}
 
 const App = async () =>{
 
   return (
-    <div className="page-style">
-      <h1 className="page-title">Home</h1>
+    <div className="flex flex-col w-full items-center h-[100%]">
+        <PromptInput/>
     </div>
   );
 }

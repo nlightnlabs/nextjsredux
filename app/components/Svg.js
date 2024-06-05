@@ -15,12 +15,14 @@ import ProfileIcon from "./svgs/ProfileIcon";
 import SettingsIcon from "./svgs/SettingsIcon";
 import WorkflowIcon from "./svgs/WorkflowIcon";
 import GeneralIcon from "./svgs/GeneralIcon";
+import MicrophoneIcon from "./svgs/MicrophoneIcon";
+import StopRecordingIcon from "./svgs/StopRecordingIcon";
 
 const Svg = (props) => {
 
   const iconName = props.iconName || "GeneralIcon";
   const fillColor = props.fillColor || "lightgray";
-  const fillOpacity = props.fillColor || "1";
+  const fillOpacity = props.fillOpacity || "1";
   const height = props.height || "30px";
   const width = props.width || "30px";
 
@@ -38,6 +40,8 @@ const Svg = (props) => {
     SettingsIcon: SettingsIcon,
     WorkflowIcon: WorkflowIcon,
     GeneralIcon: GeneralIcon,
+    MicrophoneIcon: MicrophoneIcon,
+    StopRecordingIcon: StopRecordingIcon
   };
 
   const SvgComponent = images[iconName];
@@ -47,7 +51,7 @@ const Svg = (props) => {
   }
 
   return (
-    <div style={{height: height, width: width}} >
+    <div className="flex items-center" style={{height: height, width: width}} >
       <SvgComponent fillColor={fillColor} fillOpacity={fillOpacity} />
     </div>
   );

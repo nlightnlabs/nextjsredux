@@ -7,6 +7,7 @@ import { formatDateInput } from '../functions/formatValue';
 type MultiInputProps = {
   list?: string[];
   label?: string;
+  placeholder?: string;
   type?: string;
   id?: string;
   name?: string;
@@ -46,6 +47,7 @@ const MultiInput = (props:MultiInputProps) => {
 
   const list = props.list || [];
   const label = props.label || "";
+  const placeholder = props.placeholder || "";
   const type = props.type || "text";
   const id = props.id || "";
   const name = props.name || "";
@@ -299,6 +301,7 @@ const MultiInput = (props:MultiInputProps) => {
             ref={textAreaRef}
             id={id}
             name={name}
+            placeholder={placeholder}
             value={value}
             style={textAreaStyle}
             onChange={(e) => handleInputChange(e.target.value)}
@@ -310,7 +313,6 @@ const MultiInput = (props:MultiInputProps) => {
             required={required}
             disabled={disabled}
             readOnly={readonly}
-            placeholder="Please enter data"
           />
         ) : (
           <input
@@ -319,6 +321,7 @@ const MultiInput = (props:MultiInputProps) => {
             id={id}
             name={name}
             type={type}
+            placeholder={placeholder}
             value={value}
             style={inputStyle}
             onChange={(e) => handleInputChange(e.target.value)}
@@ -330,7 +333,6 @@ const MultiInput = (props:MultiInputProps) => {
             required={required}
             disabled={disabled}
             readOnly={readonly}
-            placeholder="Please enter data"
           />
         )}
         {allowAddData && <img className="absolute top-0 right-0 mt-3 mr-3 cursor-pointer" src="/path/to/add-icon.png" style={addIconStyle} onClick={handleAddData} alt="Add Data" />}
