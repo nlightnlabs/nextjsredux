@@ -40,6 +40,7 @@ const MenuItem = (props: MenuItemsPropTypes) => {
   };
 
   const handleNavigation = () => {
+    console.log(router)
     router.push(item.link);
   };
 
