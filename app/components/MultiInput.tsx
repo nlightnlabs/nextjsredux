@@ -219,8 +219,9 @@ const MultiInput = (props:MultiInputProps) => {
   };
 
   const updateParent = (inputValue: string) => {
+    console.log("inputValue",inputValue)
     if (typeof onChange === "function") {
-      onChange({ target: { value: inputValue } });
+      onChange({ target: { ...props,...{["value"]: inputValue } }});
     }
   };
 

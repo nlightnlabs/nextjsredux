@@ -50,7 +50,7 @@ const MenuItem = (props: MenuItemsPropTypes) => {
       id={`menu_item_${item.name}`}
       data-name={item.name} // Use data-name instead of name
       className={`flex items-center ${
-        !isExpanded ? 'justify-content-center' : 'justify-content-start'
+        !isExpanded ? 'justify-center' : 'justify-start'
       }`}
       style={{
         ...MenuItemStyle,

@@ -25,14 +25,18 @@ const SignIn = () => {
   const handleChange=(e:any)=>{
     let {name, value} = e.target
 
+    console.log("name", name)
+
     if(name=="email"){
         value = value.toString().toLowerCase()
       }
-
+    
+    console.log({...formData,...{[name]:value}})
     setFormData({...formData,...{[name]:value}})
   }
 
   const validateUser = async()=>{
+    console.log("formData",formData)
     if(Object.keys(formData).length===0){
       setLogInErrorMsg(`${String.fromCharCode(10060)} invalid user information.`)
       setLogInClassName("text-danger mt-0 mb-3 animate__animated animate__fadeIn ")
