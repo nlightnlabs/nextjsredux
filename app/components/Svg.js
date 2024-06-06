@@ -17,6 +17,8 @@ import WorkflowIcon from "./svgs/WorkflowIcon";
 import GeneralIcon from "./svgs/GeneralIcon";
 import MicrophoneIcon from "./svgs/MicrophoneIcon";
 import StopRecordingIcon from "./svgs/StopRecordingIcon";
+import SendIcon from "./svgs/SendIcon";
+import MenuIcon from "./svgs/MenuIcon";
 
 const Svg = (props) => {
 
@@ -41,7 +43,9 @@ const Svg = (props) => {
     WorkflowIcon: WorkflowIcon,
     GeneralIcon: GeneralIcon,
     MicrophoneIcon: MicrophoneIcon,
-    StopRecordingIcon: StopRecordingIcon
+    StopRecordingIcon: StopRecordingIcon,
+    SendIcon: SendIcon,
+    MenuIcon:MenuIcon
   };
 
   const SvgComponent = images[iconName];

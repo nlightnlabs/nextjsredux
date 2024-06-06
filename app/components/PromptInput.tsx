@@ -2,17 +2,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import Svg from "./Svg";
 import * as nlightnApi from "../apis/nlightn";
+import {useRouter} from 'next/navigation'
+import { preSscreen } from "../utils/gpt";
 
-const MainTextPrompt = () => {
+interface PropTypes {
+  returnResponse: (arg:any)=>void;
+}
+const MainTextPrompt = ({returnResponse}:PropTypes) => {
+
   const [textPrompt, setTextPrompt] = useState<string>("");
-  const [hoveredItem, setHoveredItem] = useState<boolean>(false);
+  const [response, setResponse] = useState("")
+
+  const [hoveredItem, setHoveredItem] = useState<string>("");
   const [transcription, setTranscription] = useState<string>("");
   const [display, setDisplay] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [blobURL, setBlobURL] = useState<string>("");
 
-  const audioPlayerRef = useRef<HTMLDivElement>(null);
   const soundWaveCanvasRef = useRef<HTMLCanvasElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunks = useRef<any[]>([]);
@@ -21,15 +28,6 @@ const MainTextPrompt = () => {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
   const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
-
-  useEffect(() => {
-    if (display) {
-      initializeAudioContext();
-    } else {
-      cleanupAudioContext();
-    }
-  }, [display]);
-
 
   const initializeAudioContext = async () => {
     audioContextRef.current = new AudioContext();
@@ -41,12 +39,19 @@ const MainTextPrompt = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const audioSource = audioContextRef.current.createMediaStreamSource(stream);
       audioSource.connect(analyserRef.current);
-      audioPlayerRef.current!.srcObject = stream;
       draw();
     } catch (error) {
       console.error("Error accessing microphone:", error);
     }
   };
+
+  useEffect(() => {
+    if (display) {
+      initializeAudioContext();
+    } else {
+      cleanupAudioContext();
+    }
+  }, [display]);
 
   const cleanupAudioContext = () => {
     if (audioContextRef.current) {
@@ -54,7 +59,6 @@ const MainTextPrompt = () => {
       audioContextRef.current = null;
     }
   };
-
 
   const draw = () => {
     if (!canvasContextRef.current || !soundWaveCanvasRef.current || !analyserRef.current || !dataArrayRef.current) return;
@@ -92,36 +96,33 @@ const MainTextPrompt = () => {
   };
 
   const startRecording = async () => {
-    setTranscription("");
-    setAudioBlob(null);
-    setBlobURL("");
     setDisplay(true);
+    setTextPrompt("");
 
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = recorder;
-
-      recorder.ondataavailable = (event) => {
-        chunks.current.push(event.data);
-      };
-
-      recorder.onstop = () => {
-        const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
-        setAudioBlob(audioBlob);
-        const blobURL = URL.createObjectURL(audioBlob);
-        setBlobURL(blobURL);
-        setTimeout(() => {
-          transcribeToText(audioBlob);
-        }, 100);
-        chunks.current = [];
-      };
-
-      recorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      console.error('getUserMedia is not supported in this browser');
+      return;
     }
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(stream);
+    mediaRecorderRef.current = mediaRecorder;
+    chunks.current = [];
+
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        chunks.current.push(event.data);
+      }
+    };
+
+    mediaRecorder.onstop = () => {
+      console.log("stopped")
+      const audioBlob = new Blob(chunks.current, { type: 'audio/wav' });
+      setAudioBlob(audioBlob);
+    };
+
+    mediaRecorder.start();
+    setIsRecording(true);
   };
 
   const stopRecording = () => {
@@ -130,74 +131,107 @@ const MainTextPrompt = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-
-      setTimeout(() => {
-        transcribeToText();
-      }, 100);
-
     }
-    
+    setTimeout(() => {
+      transcribeToText();
+    }, 200);
   };
 
   const transcribeToText = async () => {
-    console.log("transcribing")
-      const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
-      const blobURL = URL.createObjectURL(audioBlob);
-      setBlobURL(blobURL);
-      chunks.current = [];
+    const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
+    const blobURL = URL.createObjectURL(audioBlob);
+    setBlobURL(blobURL);
     if (audioBlob) {
       const response = await nlightnApi.convertAudioToText(audioBlob);
-      setTranscription(response);
+      setTextPrompt(response);
     } else {
       console.error("No audioBlob available");
     }
   };
 
-  const style = {
-    transition: "0.5s",
+  const handleRecordingClick = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
   };
 
+  const handleSubmit = async ()=>{
+    const response = await preSscreen(textPrompt)
+    console.log(response)
+    if(response.length>0){
+      setResponse(response)
+      returnResponse({textPrompt,response})
+    }
+  }
 
   return (
-    <div className="flex flex-col w-full justify-center">
+    <div>
+      <div style={{ transition: "0.5s" }} className={`flex p-3 w-[500px] ${response.length>0? "mt-[10px]" : "mt-[50%]"}`}>
 
-      <div style={style} className="flex w-full md:w-1/2 items-center h-[75px] p-3">
+        <div className="flex w-full border rounded-lg ">
+          <input
+            id="text_prompt"
+            name="text_prompt"
+            type="text"
+            value={textPrompt}
+            onChange={(e) => setTextPrompt(e.target.value)}
+            placeholder="What do you need?"
+            className="flex w-full text-[16px] text-blue-500 outline-none border-none"
+          />
+        
+        {textPrompt &&
+            <div
+              id="SendIcon"
+              onMouseOver={() => setHoveredItem("SendIcon")}
+              onMouseLeave={() => setHoveredItem("")}
+              onClick={handleSubmit}
+              className="flex ms-2 p-1 cursor-pointer items-center fade-in me-3"
+              style={{"transition": "0.5s"}}
+            >
+            <Svg
+                iconName={"SendIcon"}
+                fillColor={hoveredItem ==="SendIcon" ? "blue": "lightgray"}
+                fillOpacity="1"
+                height="25px"
+                width="25px"
+            />
+            </div>
+        }
+
+        </div>
+        
         <div
-          id="icon"
-          onMouseOver={() => setHoveredItem(true)}
-          onMouseLeave={() => setHoveredItem(false)}
-          onClick={() => {
-            isRecording ? stopRecording() : startRecording();
-          }}
-          className="flex p-3"
+          id="RecordingIcon"
+          onClick={handleRecordingClick}
+          className="flex p-1 cursor-pointer border rounded-md ms-2 fade-in"
+          style={{"transition": "0.5s"}}
         >
           <Svg
             iconName={isRecording ? "StopRecordingIcon" : "MicrophoneIcon"}
             fillColor={isRecording ? "rgba(200,0,0,1)" : "lightgray"}
             fillOpacity="1"
-            height="50px"
-            width="50px"
+            height="40px"
+            width="40px"
           />
         </div>
 
-        <input
-          id="text_prompt"
-          name="text_prompt"
-          type="text"
-          value={textPrompt}
-          onChange={(e) => setTextPrompt(e.target.value)}
-          placeholder="What do you need?"
-          className="flex w-full h-[100%] text-[20px] hover:text-blue-500 hover:bg-[rgba(200,235,255,.25)] hover:border-[rgba(200,235,255,1)]"
-        />
+
+       
+
+        {display && (
+          <div className="flex justify-center m-2 p-2" style={{ overflow: "hidden", transition: "0.5s" }}>
+            <canvas ref={soundWaveCanvasRef} height={50} width={50} style={{ color: "gray" }}>
+              <div className="w-full"></div>
+            </canvas>
+          </div>
+        )}
       </div>
 
-      {display && (
-        <div className="flex flex-column p-3 mt-3" style={{ overflow: "hidden" }}>
-          <canvas ref={soundWaveCanvasRef} height={100} width={300} style={{ color: "gray" }} />
-          <div ref={audioPlayerRef}></div>
-        </div>
-      )}
-    </div>
+        {isRecording && <div className="flex w-full text-red-500">Recording...please make sure your mic is on</div>}
+
+      </div>
   );
 };
 

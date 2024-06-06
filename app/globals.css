@@ -106,3 +106,16 @@ input {
 }
 
 
+ /* Default style for the div */
+ .small-screen-hide {
+  display: flex; /* or any other display value */
+  width: fit-content;
+  height: fit-content;
+}
+
+/* Media query to hide the div on small screens */
+@media screen and (max-width: 400px) {
+  .small-screen-hide {
+    display: none;
+  }
+}

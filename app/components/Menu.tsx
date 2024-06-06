@@ -16,7 +16,6 @@ interface PropTypes {
 
 const Menu = ({menuItems, sections, colorTheme}: PropTypes) => {
   
-
   const [isExpanded, setExpanded] = useState(false);
 
   // Function to dynamically create refs based on the names or IDs
@@ -69,7 +68,7 @@ const Menu = ({menuItems, sections, colorTheme}: PropTypes) => {
   }, [menuItems]);
 
   const MenuStyle: React.CSSProperties = {
-    height: '100vh',
+    height: '100%',
     width: isExpanded ? '250px' : '50px',
     backgroundImage: menuColor,
     transition: '0.2s',

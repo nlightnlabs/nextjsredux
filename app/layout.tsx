@@ -17,14 +17,14 @@ export default async function RootLayout({children,}: Readonly<{children: React.
   const sections = menuData.sections
 
   return (
-    <html lang="en">
+    <html lang="en" className="h=[100vh]">
       <body className="main-layout">
           <Header/>
           <div className="flex w-full h-[100%] justify-between">
-            <div className="flex w-full h-[100%]">
+
+            <div className="flex border w-full h-[100%]">
               {children}
             </div>
-            {<Menu menuItems={menuItems} sections={sections} colorTheme="nlightn labs"/>}
           </div>
       </body>
     </html>

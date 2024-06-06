@@ -1,27 +1,23 @@
-import React from 'react'
-import UserMenu from './UserMenu'
-import StoreProvider from '../redux/StoreProvider'
-import * as iconsApi from '../apis/icons'
+import React from 'react';
+import UserMenu from './UserMenu';
+import StoreProvider from '../redux/StoreProvider';
+import Image from 'next/image';
+import Svg from './Svg';
 
-const Header = async () => {
+const Header = () => {
   return (
-    <div className="flex w-full justify-between border-b p-2 h-[75px]">
-      <div className="flex items-center h-[60px] w-[50%] justify-start">
-        <img 
-          src={`${iconsApi.generalIcons}/nlightn_labs_logo.png`} 
-          style={{height: "90%", width: "auto"}}
-          alt="nlightn labs logo" 
-          className="ms-3"
-        />
+    <div className="flex w-full items-center justify-between border-b h-[75px]">
+      <div className="flex items-center justify-start ms-3">
+        <Image src="/nlightn_labs_logo.png" height={60} width={100} alt="nlightn labs logo" />
       </div>
-
-      <div className="flex items-center w-[50%] justify-end me-3">
+      <div className="flex items-center w-[75px] justify-end pe-3">
         <StoreProvider>
-          <UserMenu />
+          <Svg iconName="MenuIcon" fillColor="lightgray" fillOpacity="1" height="50px" width="50px" />
         </StoreProvider>
       </div>
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;
+

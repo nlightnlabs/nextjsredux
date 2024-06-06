@@ -1,19 +1,16 @@
-
+import React from 'react';
 import PromptInput from './components/PromptInput';
 
+const App = () => {
 
-const handleSubmit =async (e:any)=>{
-  "use server"
-  console.log(FormData)
-}
-
-const App = async () =>{
+  const returnResponse:any = {}
 
   return (
-    <div className="flex flex-col w-full items-center h-[100%]">
-        <PromptInput/>
+    <div className="flex w-full border justify-center">
+        <PromptInput returnResponse={returnResponse}/>
     </div>
   );
 }
 
 export default App;
+
