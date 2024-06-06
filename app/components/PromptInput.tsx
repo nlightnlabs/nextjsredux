@@ -218,8 +218,6 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
         </div>
 
 
-       
-
         {display && (
           <div className="flex justify-center m-2 p-2" style={{ overflow: "hidden", transition: "0.5s" }}>
             <canvas ref={soundWaveCanvasRef} height={50} width={50} style={{ color: "gray" }}>
