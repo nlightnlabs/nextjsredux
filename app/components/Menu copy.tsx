@@ -16,7 +16,7 @@ interface PropTypes {
 
 const Menu = ({menuItems, sections, colorTheme}: PropTypes) => {
   
-  const [isExpanded, setExpanded] = useState(true);
+  const [isExpanded, setExpanded] = useState(false);
 
   // Function to dynamically create refs based on the names or IDs
   const menuItemRefs = useRef<Record<string, React.RefObject<HTMLDivElement>>>({});

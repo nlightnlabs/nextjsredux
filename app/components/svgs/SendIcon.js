@@ -22,27 +22,27 @@ const SendIcon = (props) => {
             >
         <g transform="translate(-916 -1040)"><g>
             <path d="M942.5 1068.5 1193.5 1187.74 946.865 1315.5 1001.43 1185.61 942.5 1068.5Z" 
-                stroke={fillColor} 
-                stroke-width="20.625" 
-                stroke-linecap="butt" 
-                stroke-linejoin="miter" 
-                stroke-miterlimit="8" 
-                stroke-opacity={fillOpacity}
-                fill={fillColor}
-                fill-rule="evenodd" 
-                fill-opacity={fillOpacity}
+                stroke={fillColor}  
+                strokeWidth="27.5" 
+                strokeLinecap="butt" 
+                strokeLinejoin="miter" 
+                strokeMiterlimit="8" 
+                strokeOpacity="1" 
+                fill={fillColor} 
+                fillRule="evenodd" 
+                fillOpacity={fillOpacity}
             />                    
             
             <path 
                 d="M1193.43 1187.63 1001.5 1185.5" 
                 stroke={fillColor}
-                stroke-width="20.625" 
-                stroke-linecap="butt" 
-                stroke-linejoin="miter" 
-                stroke-miterlimit="8" 
-                stroke-opacity={fillOpacity}
+                strokeWidth="20.625" 
+                strokeLinecap="butt" 
+                strokeLinejoin="miter" 
+                strokeMiterlimit="8" 
+                strokeOpacity={fillOpacity}
                 fill={fillColor} 
-                fill-rule="evenodd"/>
+                fillRule="evenodd"/>
             </g></g>
         </svg>
     )

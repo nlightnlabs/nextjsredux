@@ -30,7 +30,7 @@ export const getData = async (query:string)=>{
 //Get Table
 export const getTable = async (tableName:string)=>{
     try{
-      const result = await serverConnection.get(`/nlightn/db/table/${tableName}`)
+      const result = await serverConnection.get(`/nlightn/db/table/${tableName}/bes`)
       // console.log(result.data)
       const {data,dataTypes} = await result.data
       return ({data,dataTypes})
@@ -284,20 +284,6 @@ export const scanInvoice = async (documentText:string, record:Object)=>{
   }
 }
 
-export const runPython = async (pythonAppName:string,args:Object)=>{
-  const params = {
-    pythonAppName,
-    args
-  }
-  try{
-    const result = await serverConnection.post("/nlightn/runPython",{params})
-    console.log(JSON.parse(result.data))
-    return (JSON.parse(result.data))
-
-  }catch(error){
-    // console.log(error)
-  }
-}
 
 //Get list of all tables in database:
 export const getAllTables = async()=>{
@@ -373,19 +359,17 @@ formData.append('file', audioBlob, 'audio.wav');
 
 
 // python api
-export const pythonUrl = process.env.NODE_ENV==="production" ? "https://nlightnlabs.net/python" : "http://127.0.0.1:5000"
+export const pythonUrl = process.env.NODE_ENV==="production" ? "https://nlightnlabs.net/python" : "http://127.0.0.1:8000"
 
 export const python = axios.create({
   baseURL: pythonUrl
 })
 
-export const pythonApp = async (appName:string) =>{
-  console.log(appName)
-  const response = await axios.post('http://127.0.0.1:5000/apps/getData', { appName })
-  console.log(JSON.parse(response.data))
-  return JSON.parse(response.data)
+export const pythonApp = async (requestPayload:any) =>{
+  console.log("requestPayload",requestPayload)
+  const response:any = await axios.post('http://127.0.0.1:8000/python/runApp', requestPayload)
+  return response.data
 }
-
 
 
 

@@ -2,16 +2,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import Svg from "./Svg";
 import * as nlightnApi from "../apis/nlightn";
-import {useRouter} from 'next/navigation'
-import { preSscreen } from "../utils/gpt";
+import { aiResponse } from "../utils/gpt";
+
 
 interface PropTypes {
   returnResponse: (arg:any)=>void;
 }
+
 const MainTextPrompt = ({returnResponse}:PropTypes) => {
 
   const [textPrompt, setTextPrompt] = useState<string>("");
-  const [response, setResponse] = useState("")
 
   const [hoveredItem, setHoveredItem] = useState<string>("");
   const [transcription, setTranscription] = useState<string>("");
@@ -119,6 +119,7 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
       console.log("stopped")
       const audioBlob = new Blob(chunks.current, { type: 'audio/wav' });
       setAudioBlob(audioBlob);
+      
     };
 
     mediaRecorder.start();
@@ -157,20 +158,15 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
     }
   };
 
-  const handleSubmit = async ()=>{
-    const response = await preSscreen(textPrompt)
-    console.log(response)
-    if(response.length>0){
-      setResponse(response)
-      returnResponse({textPrompt,response})
-    }
+
+  const handleSubmit = ()=>{
+      returnResponse(textPrompt)
   }
 
   return (
-    <div>
-      <div style={{ transition: "0.5s" }} className={`flex p-3 w-[500px] ${response.length>0? "mt-[10px]" : "mt-[50%]"}`}>
+    <div className="flex w-full">
 
-        <div className="flex w-full border rounded-lg ">
+        <div className="flex w-full border rounded-lg shadow-md shadow-gray-300 ">
           <input
             id="text_prompt"
             name="text_prompt"
@@ -178,7 +174,7 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
             value={textPrompt}
             onChange={(e) => setTextPrompt(e.target.value)}
             placeholder="What do you need?"
-            className="flex w-full text-[16px] text-blue-500 outline-none border-none"
+            className="flex w-full text-[20px] text-blue-500 outline-none border-none"
           />
         
         {textPrompt &&
@@ -205,7 +201,7 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
         <div
           id="RecordingIcon"
           onClick={handleRecordingClick}
-          className="flex p-1 cursor-pointer border rounded-md ms-2 fade-in"
+          className="flex p-1 cursor-pointer border rounded-md ms-2 fade-in items-center"
           style={{"transition": "0.5s"}}
         >
           <Svg
@@ -216,21 +212,21 @@ const MainTextPrompt = ({returnResponse}:PropTypes) => {
             width="40px"
           />
         </div>
-
-
+        
         {display && (
-          <div className="flex justify-center m-2 p-2" style={{ overflow: "hidden", transition: "0.5s" }}>
+          <div className="flex w-full justify-center m-2 p-2" style={{ overflow: "hidden", transition: "0.5s" }}>
             <canvas ref={soundWaveCanvasRef} height={50} width={50} style={{ color: "gray" }}>
               <div className="w-full"></div>
             </canvas>
           </div>
         )}
-      </div>
 
-        {isRecording && <div className="flex w-full text-red-500">Recording...please make sure your mic is on</div>}
+
+      {isRecording && <div className="flex w-full text-red-500">Recording...please make sure your mic is on</div>}
 
       </div>
   );
 };
 
 export default MainTextPrompt;
+

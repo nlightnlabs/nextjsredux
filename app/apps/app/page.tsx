@@ -1,8 +1,16 @@
+"use client"
 import React from 'react'
+import {useRouter} from 'next/router'
 
 const page = () => {
+
+
+
   return (
-    <div>page</div>
+    <div className="flex flex-col lg:w-50">
+      <div>Charts</div>
+      <div>Table</div>
+    </div>
   )
 }
 
